@@ -78,6 +78,10 @@ public class PedidoRestService {
 
 		boolean pedidoNovo = true;
 
+		if(!item.clientExists()){
+			throw new RuntimeException("O usuario com id: "+item.getIdCliente()+" não existe");
+		}
+
 		for (Pedido pedido : pedidosMock) {
 
 			if (pedido.getId() == item.getIdPedido()) {
