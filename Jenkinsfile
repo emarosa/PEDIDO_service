@@ -1,6 +1,13 @@
 node {
     def app
 
+    agent {
+        node {
+            label 'emarosa-services'
+            customWorkspace '/home/imlbf/workspace/pedido'
+        }
+    }
+
     stage('Clone repository') {
         checkout scm
     }
