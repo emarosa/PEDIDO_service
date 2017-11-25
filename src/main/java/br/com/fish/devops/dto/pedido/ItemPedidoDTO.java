@@ -1,6 +1,9 @@
 package br.com.fish.devops.dto.pedido;
 
 import br.com.fish.devops.domain.pedido.ItemPedido;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 public class ItemPedidoDTO {
 
@@ -32,6 +35,19 @@ public class ItemPedidoDTO {
 
 	public void setItem(ItemPedido item) {
 		this.item = item;
+	}
+
+	public boolean clientExists(){
+		long idCliente = getIdCliente();
+		RestTemplate restTemplate = new RestTemplate();
+		String url =
+				"http://localhost:8080/clienterest/"+idCliente+"/exists/";
+		ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.GET, null, Boolean.class);
+		Boolean clientExists = response.getBody();
+		if(!clientExists){
+			return false;
+		}
+		return true;
 	}
 
 }
