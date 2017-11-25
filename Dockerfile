@@ -1,25 +1,13 @@
-FROM openjdk:8-jdk-alpine
-MAINTAINER Nicolas De Loof <nicolas.deloof@gmail.com>
+ARG DOCKER_GID=993
 
-ENV HOME /home/jenkins
-RUN addgroup -S -g 10000 jenkins
-RUN adduser -S -u 10000 -h $HOME -G jenkins jenkins
-LABEL Description="This is a base image, which provides the Jenkins agent executable (slave.jar)" Vendor="Jenkins project" Version="3.14"
+RUN groupadd -g ${DOCKER_GID} docker \
+  && curl -sSL https://get.docker.com/ | sh \
+  && apt-get -q autoremove \
+  && apt-get -q clean -y \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*.bin 
 
-ARG VERSION=3.14
-ARG AGENT_WORKDIR=/home/jenkins/agent
-
-RUN apk add --update --no-cache curl bash git openssh-client openssl \
-  && chmod 755 /home/fireman/ \
-  && chmod 644 /home/fireman/slave.jar \
-  && apk del curl
-USER jenkins
-ENV AGENT_WORKDIR=${AGENT_WORKDIR}
-RUN mkdir /home/jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
-
-VOLUME /home/jenkins/.jenkins
-VOLUME ${AGENT_WORKDIR}
-WORKDIR /home/jenkins
+RUN useradd -m -d /home/jenkins -s /bin/sh jenkins \
+  && usermod -aG docker jenkins
 
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
