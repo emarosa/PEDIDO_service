@@ -41,7 +41,7 @@ public class ItemPedidoDTO {
 		long idCliente = getIdCliente();
 		RestTemplate restTemplate = new RestTemplate();
 		String url =
-				"http://localhost:3000/clienterest/"+idCliente+"/exists/";
+				"http://146.148.84.149/clienterest/"+idCliente+"/exists/";
 		ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.GET, null, Boolean.class);
 		Boolean clientExists = response.getBody();
 		if(!clientExists){
