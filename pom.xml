@@ -58,6 +58,13 @@
 		    <version>1.7.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -66,6 +73,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<groups>com.mycompany.SlowTests</groups>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>com.spotify</groupId>

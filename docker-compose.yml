@@ -1,0 +1,34 @@
+version: '2'
+services:
+
+ web:
+  image: ianfireman/pedido_service
+  ports:
+   - "80:8081"
+  links:
+   - logstash
+  networks:
+   - front-tier
+  logging:
+    driver: syslog
+
+ logstash:
+  image: docker.elastic.co/logstash/logstash:6.0.0
+  container_name: logstash
+  command: logstash -f /etc/logstash/conf.d/logstash.conf
+  volumes:
+   - ./src/main/logstash/config:/etc/logstash/conf.d
+  ports:
+   - "5000:5000"
+  networks:
+   - front-tier
+   - back-tier
+
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  front-tier:
+  back-tier:
+   driver: bridge
