@@ -14,6 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +27,7 @@ import br.com.fish.devops.dto.pedido.ItemPedidoDTO;
 @Named
 @Path("/pedidorest/")
 public class PedidoRestService {
- 
+
 	private static List<Pedido> pedidosMock = new ArrayList<Pedido>();
 
 	private static final Logger logger = LogManager.getLogger(PedidoRestService.class.getName());
@@ -64,7 +66,7 @@ public class PedidoRestService {
 	@POST
 	@Path("item/adiciona")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void adicionaItemPedido(ItemPedidoDTO item) {
+	public Response adicionaItemPedido(ItemPedidoDTO item) {
 
 		contadorErroCaotico++;
 
@@ -78,8 +80,8 @@ public class PedidoRestService {
 
 		boolean pedidoNovo = true;
 
-		if(!item.clientExists()){
-			throw new RuntimeException("O usuario com id: "+item.getIdCliente()+" não existe");
+		if (!item.clientExists()) {
+			throw new RuntimeException("O usuario com id: " + item.getIdCliente() + " não existe");
 		}
 
 		for (Pedido pedido : pedidosMock) {
@@ -111,6 +113,7 @@ public class PedidoRestService {
 		logger.info("pedido " + item.getIdPedido() + " do cliente " + idCliente + " adicionou o produto "
 				+ item.getItem().getIdProduto());
 
+		return Response.status(Status.OK).entity(pedidoNovo).build();
 	}
 
 	@POST
