@@ -3,7 +3,7 @@ import java.util.function.ToIntFunction;
 
 import org.junit.*;
 
-import br.com.fish.devops.domain.pedido.Pedido;
+import br.com.fish.devops.domain.pedido.ItemPedido;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anyOf;
@@ -24,6 +24,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import br.com.fish.devops.domain.pedido.Pedido;
+
 public class JUnitTest {
- 
+
+	@Test
+	private void teste() {
+		assertEquals(true, true);
+	}
+
 }
